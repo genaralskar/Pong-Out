@@ -8,6 +8,9 @@ TextureImporter:
   - first:
       213: 1045519288250595290
     second: paddleBlock
+  - first:
+      213: -3390310044494813386
+    second: ball
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -141,6 +144,27 @@ TextureImporter:
       bones: []
       spriteID: ad7fef5d04e628e00800000000000000
       internalID: 1045519288250595290
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ball
+      rect:
+        serializedVersion: 2
+        x: 75
+        y: 486
+        width: 25
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 637a2772af233f0d0800000000000000
+      internalID: -3390310044494813386
       vertices: []
       indices: 
       edges: []

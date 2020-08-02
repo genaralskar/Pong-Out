@@ -32,14 +32,17 @@ SpriteAtlas:
     packables:
     - {fileID: 3054439076135632626, guid: 5a4f74b0b6c602e46998e3e9f414b80e, type: 3}
     - {fileID: 1045519288250595290, guid: 5a4f74b0b6c602e46998e3e9f414b80e, type: 3}
-    totalSpriteSurfaceArea: 2202
+    - {fileID: -3390310044494813386, guid: 5a4f74b0b6c602e46998e3e9f414b80e, type: 3}
+    totalSpriteSurfaceArea: 2827
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: 3054439076135632626, guid: 5a4f74b0b6c602e46998e3e9f414b80e, type: 3}
+  - {fileID: -3390310044494813386, guid: 5a4f74b0b6c602e46998e3e9f414b80e, type: 3}
   - {fileID: 1045519288250595290, guid: 5a4f74b0b6c602e46998e3e9f414b80e, type: 3}
   m_PackedSpriteNamesToIndex:
   - logo
+  - ball
   - paddleBlock
   m_Tag: atlas
   m_IsVariant: 0
