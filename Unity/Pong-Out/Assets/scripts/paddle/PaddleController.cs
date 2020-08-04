@@ -14,9 +14,20 @@ public class PaddleController : MonoBehaviour
     private Coroutine c;
     private WaitForFixedUpdate wait = new WaitForFixedUpdate();
 
+    private List<GameObject> blocks = new List<GameObject>();
+
+ 
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+
+        GetBlocks();
+    }
+
+    public void BreakBlock(Vector2 position)
+    {
+        FindNearestBlock(position).SetActive(false);
     }
 
     private void OnMove(InputValue value)
@@ -33,5 +44,45 @@ public class PaddleController : MonoBehaviour
             
             yield return wait;
         }
+    }
+
+    private void GetBlocks()
+    {
+        foreach(var p in GetComponentsInChildren<PaddleBlock>())
+        {
+            blocks.Add(p.gameObject);
+        }
+    }
+
+    private GameObject FindNearestBlock(Vector2 point)
+    {
+        GameObject g = GetFirstActiveBlock();
+        float closeDist = Vector2.Distance(point, g.transform.position);
+        if (g == null) Debug.LogError("Not active blocks on the paddle, but you're trying to get one!");
+
+        foreach(var b in blocks)
+        {
+            if (!b.activeSelf) continue;
+
+            if(Vector2.Distance(point, b.transform.position) < closeDist)
+            {
+                g = b;
+                closeDist = Vector2.Distance(point, b.transform.position);
+            }
+        }
+
+        return g;
+    }
+
+    private GameObject GetFirstActiveBlock()
+    {
+        foreach(var b in blocks)
+        {
+            if(b.activeSelf)
+            {
+                return b;
+            }
+        }
+        return null;
     }
 }
