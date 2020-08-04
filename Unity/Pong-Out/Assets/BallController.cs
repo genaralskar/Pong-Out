@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class BallController : MonoBehaviour
 {
@@ -12,19 +13,17 @@ public class BallController : MonoBehaviour
     private float moveSpeed = 5;
     [SerializeField]
     private float speedAccleration = .25f;
-    public Vector2 moveDirection = new Vector2(1, 1);
+    public Vector2 moveDirection = new Vector2(3, 2);
     private Vector2 nmd;
+    private bool flipY = false;
+    private bool flipX = false;
+    private bool ballMoving;
+
     [SerializeField]
     private Vector2 bounds = new Vector2(10, 10);
-    [SerializeField]
-    private float width = .25f;
-
-    public Vector2 velocity = new Vector2(1f, .5f);
 
     [SerializeField]
     private GameObject art;
-
-    private bool ballMoving;
 
     private Rigidbody2D rb;
 
@@ -33,9 +32,11 @@ public class BallController : MonoBehaviour
     private Coroutine mc;
 
     private Animator anims;
+    private GameManager gm;
 
     private void Awake()
     {
+        gm = FindObjectOfType<GameManager>();
         rb = GetComponent<Rigidbody2D>();
         anims = GetComponent<Animator>();
         nmd = moveDirection.normalized;
@@ -46,43 +47,75 @@ public class BallController : MonoBehaviour
         ResetBall();
     }
 
+    private void OnDisable()
+    {
+        ballMoving = false;
+        StopAllCoroutines();
+    }
 
+    private void Start()
+    {
+        //gameObject.SetActive(false);
+    }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
         //get direction for flip stuff
         Vector2 colPoint = collision.ClosestPoint(transform.position);
         Vector2 dir = (Vector2)transform.position - colPoint;
-        if(Mathf.Abs(dir.x) > Mathf.Abs(dir.y))
-        {
-            //flip x
-            FlipX();
-        }
-        else
-        {
-            //flip y
-            FlipY();
-        }
 
         PaddleController pc = collision.attachedRigidbody.GetComponent<PaddleController>();
-        if(pc)
+        if (pc)
         {
             pc.BreakBlock(colPoint);
         }
+
+        if (Mathf.Abs(dir.x) < Mathf.Abs(dir.y))
+        {
+            //flip y
+            
+            if (!flipY && colPoint.y < 0) //if travling up and the collider point is below it!
+            {
+                FlipY();
+                return;
+            }
+            else if(flipY && colPoint.y > 0) //if traveling down and collider point is above it!
+            {
+                FlipY();
+                return;
+            }
+        }
+       
+        
+        //flip x
+        if (!flipX && transform.position.x > 0)
+        {
+            //traveling right, so only make it flip if its moving right
+            FlipX();
+        }
+        if (flipX && transform.position.x < 0)
+        {
+            //travling left, so only make it flip if its moving left
+            FlipX();
+        }
     }
 
-    public void StopBall()
-    {
-        ballMoving = false;
-    }
-
-    private void ResetBall()
+    public void ResetBall()
     {
         transform.position = Vector2.zero;
         StopAllCoroutines();
         moveSpeed = startSpeed;
         anims.Play("ballActivate");
+        moveDirection = GetRandomDirection(!flipX);
         StartCoroutine(StartBall());
+    }
+
+    private void EndBall()
+    {
+        //send event that ball is blown up, for audio and particle
+        gm.BallExploded?.Invoke(transform.position);
+        Debug.Log("Ball Ended");
+        gameObject.SetActive(false);
     }
 
     public void AddSpeed()
@@ -103,6 +136,7 @@ public class BallController : MonoBehaviour
     public void FlipY()
     {
         flipY = !flipY;
+        moveDirection.y *= -1;
         AddSpeed();
     }
 
@@ -159,7 +193,6 @@ public class BallController : MonoBehaviour
         }
     }
 
-    private bool flipY = false;
 
     private float GetYPos(float t, float speed)
     {
@@ -198,24 +231,17 @@ public class BallController : MonoBehaviour
         return yPos;
     }
 
-    private bool flipX = false;
-
     private float GetXPos(float t, float speed)
     {
         float xPos = transform.position.x;
 
-        if (xPos >= 5)
+        //reached the walls, shouldn't flip, just end it!
+        if (xPos >= 5 || xPos <= -5)
         {
-            flipX = true;
-            AddSpeed();
-        }
-        if(xPos  <= -5)
-        {
-            flipX = false;
-            AddSpeed();
+            EndBall();
         }
 
-
+        
         if(!flipX)
         {
             xPos += Time.fixedDeltaTime * moveSpeed * nmd.x;
@@ -227,5 +253,15 @@ public class BallController : MonoBehaviour
 
         //between -5 and 5
         return xPos;
+    }
+
+    private Vector2 GetRandomDirection(bool startLeft)
+    {
+        float y = Random.Range(-.75f, .75f);
+        float x = 1;
+        if (startLeft) x = -1;
+        Debug.Log("Random Direction:" + new Vector2(x, y));
+        if (y < 0) flipY = true;
+        return new Vector2(x, y);
     }
 }
