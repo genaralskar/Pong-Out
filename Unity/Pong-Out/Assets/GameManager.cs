@@ -5,6 +5,9 @@ using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
 {
+    public static bool winningPlayer;
+    public static bool tutorialDone = false;
+
     public UnityAction GameStart;
     public UnityAction RoundStart;
     public UnityAction RoundEnd;
@@ -24,7 +27,8 @@ public class GameManager : MonoBehaviour
 
     //ball stuff
     public UnityAction<Vector2> BallExploded;
-    public UnityAction BallBounce;
+    public UnityAction<bool> BallBounce;
+
 
     private ScoreManager sm;
 
@@ -44,6 +48,9 @@ public class GameManager : MonoBehaviour
     public Animator winnerScreenAnimator;
 
     public TextMeshProUGUI winnerText;
+
+    [Header("Audio Stuff")]
+    public bool funnyVoice = false;
 
     private void Awake()
     {
@@ -67,8 +74,14 @@ public class GameManager : MonoBehaviour
         //game start
         GameStart?.Invoke();
         //input check
-        InputCheckStart?.Invoke();
-        InputCheckEndsHandler();
+        if(!tutorialDone)
+        {
+            InputCheckStart?.Invoke();
+        }
+        else
+        {
+            InputCheckEndsHandler();
+        }
     }
 
     private void InputCheckEndsHandler()
@@ -85,18 +98,18 @@ public class GameManager : MonoBehaviour
 
     private void BallExplodedHandler(Vector2 pos)
     {
-        Debug.Log("Ball Exploded!");
+        //Debug.Log("Ball Exploded!");
         UpdateScore?.Invoke(pos.x < 0);
-        RoundEnd?.Invoke();   
+        RoundEnd?.Invoke();
     }
 
     private void RoundEndHandler()
     {
-        Debug.Log("Round End");
+        //Debug.Log("Round End");
         ball.SetActive(false);
         //check score
         ScoreInfo si = sm.CheckScores(scoreToWin);
-        Debug.Log($"winner {si.winner}, player {si.player}");
+        //Debug.Log($"winner {si.winner}, player {si.player}");
         if(si.winner == true)
         {
             //if a winner, end the game
@@ -107,12 +120,18 @@ public class GameManager : MonoBehaviour
             //else start next round
             StartCoroutine(RoundPadding());
         }
-        
+    }
+
+    private IEnumerator RoundPadding()
+    {
+        yield return new WaitForSeconds(2);
+        RoundStart?.Invoke();
     }
 
     private void GameEndHandler(bool player)
     {
-        StartCoroutine(EndGameCo(player));   
+        winningPlayer = player;
+        StartCoroutine(EndGameCo(player));
     }
 
     private IEnumerator EndGameCo(bool player)
@@ -156,10 +175,9 @@ public class GameManager : MonoBehaviour
 
     }
 
-    private IEnumerator RoundPadding()
+    public void UseVoiceSounds(bool value)
     {
-        yield return new WaitForSeconds(2);
-        RoundStart?.Invoke();
+        funnyVoice = value;
     }
 
     public struct ScoreInfo

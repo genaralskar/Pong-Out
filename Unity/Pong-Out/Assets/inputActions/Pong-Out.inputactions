@@ -12,22 +12,6 @@
                     "expectedControlType": "Axis",
                     "processors": "",
                     "interactions": ""
-                },
-                {
-                    "name": "Mouse",
-                    "type": "Value",
-                    "id": "7b9dda1b-a34c-4e5a-870a-4d6efb4e663a",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "MouseClick",
-                    "type": "Button",
-                    "id": "c997589a-4fe1-43ea-a0dc-a536d01e0c20",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -63,28 +47,6 @@
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
-                },
-                {
-                    "name": "",
-                    "id": "f56fa8fb-bf60-4ff6-a0c7-da0245f0f340",
-                    "path": "<Mouse>/position",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "Mouse",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "b0f07103-ea22-4020-8d85-b761001109b9",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "MouseClick",
-                    "isComposite": false,
-                    "isPartOfComposite": false
                 }
             ]
         },
@@ -640,6 +602,96 @@
                     "action": "TrackedDeviceOrientation",
                     "isComposite": false,
                     "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "InputChecker",
+            "id": "5cc733db-d52e-4861-8aaa-b6422823c92a",
+            "actions": [
+                {
+                    "name": "P1Move",
+                    "type": "Value",
+                    "id": "907d13ed-eac3-4be8-878a-22534e3b7db2",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "P2Move",
+                    "type": "Value",
+                    "id": "3e2ec1de-dec8-478c-ac99-ff8ac4340293",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "Player1",
+                    "id": "4be1c00c-fd9f-405c-8d2f-a5233bc6df81",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "P1Move",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "e007fa9e-3d65-4fa8-977a-074071c582a3",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "P1Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "62201cf0-8d5a-44ea-84ba-3513402e0412",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "P1Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Player2",
+                    "id": "f839f311-c833-4009-9db8-4623b8eddd89",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "P2Move",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "6aa31fb3-1fbd-48a1-90b0-1bedc1545610",
+                    "path": "<Keyboard>/downArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "P2Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "f75ccfc9-b4db-49ec-b7e7-598cc026fd71",
+                    "path": "<Keyboard>/upArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "P2Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         }
