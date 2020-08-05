@@ -11,6 +11,21 @@ TextureImporter:
   - first:
       213: -3390310044494813386
     second: ball
+  - first:
+      213: -4956847714299568901
+    second: w
+  - first:
+      213: -4956847714299568901
+    second: downArrow
+  - first:
+      213: 7078721237736168550
+    second: upArrow
+  - first:
+      213: 5353814281814395262
+    second: wKey
+  - first:
+      213: -4297964582387691100
+    second: sKey
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -157,7 +172,7 @@ TextureImporter:
         width: 25
         height: 25
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -165,6 +180,90 @@ TextureImporter:
       bones: []
       spriteID: 637a2772af233f0d0800000000000000
       internalID: -3390310044494813386
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: downArrow
+      rect:
+        serializedVersion: 2
+        x: 248
+        y: 471
+        width: 35
+        height: 40
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bfc977f244db53bb0800000000000000
+      internalID: -4956847714299568901
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: upArrow
+      rect:
+        serializedVersion: 2
+        x: 285
+        y: 471
+        width: 35
+        height: 40
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 66c1747067bac3260800000000000000
+      internalID: 7078721237736168550
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wKey
+      rect:
+        serializedVersion: 2
+        x: 154
+        y: 472
+        width: 45
+        height: 39
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e79c5fc39b19c4a40800000000000000
+      internalID: 5353814281814395262
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sKey
+      rect:
+        serializedVersion: 2
+        x: 201
+        y: 471
+        width: 45
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4a15291ebff8a54c0800000000000000
+      internalID: -4297964582387691100
       vertices: []
       indices: 
       edges: []

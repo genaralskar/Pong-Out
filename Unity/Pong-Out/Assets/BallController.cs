@@ -15,6 +15,7 @@ public class BallController : MonoBehaviour
     private Vector2 nmd;
     private bool flipY = false;
     private bool flipX = false;
+    public bool FlipXBool => flipX;
     private bool ballMoving;
 
     [SerializeField]
@@ -112,7 +113,7 @@ public class BallController : MonoBehaviour
     {
         //send event that ball is blown up, for audio and particle
         gm.BallExploded?.Invoke(transform.position);
-        Debug.Log("Ball Ended");
+        //Debug.Log("Ball Ended");
         gameObject.SetActive(false);
     }
 
@@ -128,6 +129,8 @@ public class BallController : MonoBehaviour
     public void FlipX()
     {
         flipX = !flipX;
+        gm.BallBounce?.Invoke(true);
+        BounceAnimation();
         AddSpeed();
     }
 
@@ -135,7 +138,14 @@ public class BallController : MonoBehaviour
     {
         flipY = !flipY;
         moveDirection.y *= -1;
+        gm.BallBounce?.Invoke(false);
+        BounceAnimation();
         AddSpeed();
+    }
+
+    private void BounceAnimation()
+    {
+        anims.SetTrigger("bounce");
     }
 
     private IEnumerator StartBall()
@@ -204,16 +214,26 @@ public class BallController : MonoBehaviour
 
         float yPos = transform.position.y;
 
+
+        //!!!!!!!!!!!!!!!!!!!!!!!!!
+        //Update this stuff to use the FlipY method
+        //!!!!!!!!!!!!!!!!!!!!!!!!!
         if (yPos >= 5)
         {
             flipY = true;
+            gm.BallBounce?.Invoke(false);
+            BounceAnimation();
             AddSpeed();
         }
         if (yPos <= -5)
         {
             flipY = false;
+            gm.BallBounce?.Invoke(false);
+            BounceAnimation();
             AddSpeed();
         }
+        //!!!!!!!!!!!!!!!!!!!!!!!
+        //!!!!!!!!!!!!!!!!!!!!!!!
 
 
         if (!flipY)
@@ -258,8 +278,9 @@ public class BallController : MonoBehaviour
         float y = Random.Range(-.75f, .75f);
         float x = 1;
         if (startLeft) x = -1;
-        Debug.Log("Random Direction:" + new Vector2(x, y));
-        if (y < 0) flipY = true;
+        //Debug.Log("Random Direction:" + new Vector2(x, y));
+        if (x > 0) flipX = false;
+        if (x < 0) flipX = true;
         return new Vector2(x, y);
     }
 }
