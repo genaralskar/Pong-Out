@@ -1,12 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PaddleBlock : MonoBehaviour
 {
-    private void OnCollisionEnter2D(Collision2D collision)
+    public void DisablePaddle()
     {
-        if(collision.transform.CompareTag("Ball"))
-            gameObject.SetActive(false);
+        gameObject.SetActive(false);
     }
 }

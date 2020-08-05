@@ -1,11 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PaddleController : MonoBehaviour
 {
-
     [SerializeField]
     private float moveSpeed = 300f;
 
@@ -15,12 +13,15 @@ public class PaddleController : MonoBehaviour
     private WaitForFixedUpdate wait = new WaitForFixedUpdate();
 
     private List<GameObject> blocks = new List<GameObject>();
+    private List<PaddleBlock> pBlocks = new List<PaddleBlock>();
 
- 
+    private GameManager gm;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        gm = FindObjectOfType<GameManager>();
+        gm.RoundStart += ResetBlocks;
 
         GetBlocks();
     }
@@ -37,20 +38,22 @@ public class PaddleController : MonoBehaviour
         rb.velocity = (Vector2.up * dir * moveSpeed * Time.fixedDeltaTime);
     }
 
-    private IEnumerator Move(float dir)
-    {
-        while (true)
-        {
-            
-            yield return wait;
-        }
-    }
-
     private void GetBlocks()
     {
         foreach(var p in GetComponentsInChildren<PaddleBlock>())
         {
             blocks.Add(p.gameObject);
+            pBlocks.Add(p);
+        }
+    }
+
+    private void ResetBlocks()
+    {
+        rb.MovePosition(new Vector2(transform.position.x, 0));
+
+        foreach (var b in blocks)
+        {
+            b.SetActive(true);
         }
     }
 
