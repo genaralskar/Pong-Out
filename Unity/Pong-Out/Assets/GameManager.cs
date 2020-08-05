@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
 
     //ball stuff
     public UnityAction<Vector2> BallExploded;
+    public UnityAction BallBounce;
 
     private ScoreManager sm;
 
