@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -14,6 +13,7 @@ public class PaddleController : MonoBehaviour
     private WaitForFixedUpdate wait = new WaitForFixedUpdate();
 
     private List<GameObject> blocks = new List<GameObject>();
+    private List<PaddleBlock> pBlocks = new List<PaddleBlock>();
 
     private GameManager gm;
 
@@ -43,6 +43,7 @@ public class PaddleController : MonoBehaviour
         foreach(var p in GetComponentsInChildren<PaddleBlock>())
         {
             blocks.Add(p.gameObject);
+            pBlocks.Add(p);
         }
     }
 

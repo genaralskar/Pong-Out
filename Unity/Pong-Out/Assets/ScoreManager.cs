@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Events;
+﻿using UnityEngine;
 using TMPro;
 
 public class ScoreManager : MonoBehaviour
@@ -27,7 +24,7 @@ public class ScoreManager : MonoBehaviour
         {
             player1Score.value++;
             gm.PlayerLeftScores?.Invoke();
-            if(player1Score >= 10)
+            if (player1Score >= GameManager.winScore)
             {
                 //end game
             }
@@ -41,7 +38,7 @@ public class ScoreManager : MonoBehaviour
         {
             player2Score.value++;
             gm.PlayerRightScores?.Invoke();
-            if(player2Score >= 10)
+            if(player2Score >= GameManager.winScore)
             {
                 //end game
             }

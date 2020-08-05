@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     private int scoreToWin = 10;
+    public static int winScore = 10;
     public GameObject ball;
 
     [Header("UI Stuff")]
@@ -36,12 +37,17 @@ public class GameManager : MonoBehaviour
     public GameObject mainMenuUI;
     public GameObject pauseMenuUI;
     public GameObject endGameUI;
+
     public Animator mainMenuAnimator;
-    public Animator gameMenuAnimator;
+    public Animator scoreScreenAnimator;
+    public Animator winnerScreenAnimator;
+
+    public TextMeshProUGUI winnerText;
 
     private void Awake()
     {
         sm = FindObjectOfType<ScoreManager>();
+        winScore = scoreToWin;
 
         InputCheckEnds += InputCheckEndsHandler;
         GameEnd += GameEndHandler;
@@ -72,15 +78,15 @@ public class GameManager : MonoBehaviour
 
     private void RoundStartHandler()
     {
+        scoreScreenAnimator.SetBool("active", true);
         ball.SetActive(true);
     }
 
     private void BallExplodedHandler(Vector2 pos)
     {
         Debug.Log("Ball Exploded!");
-        RoundEnd?.Invoke();
-
         UpdateScore?.Invoke(pos.x < 0);
+        RoundEnd?.Invoke();   
     }
 
     private void RoundEndHandler()
@@ -89,6 +95,7 @@ public class GameManager : MonoBehaviour
         ball.SetActive(false);
         //check score
         ScoreInfo si = sm.CheckScores(scoreToWin);
+        Debug.Log($"winner {si.winner}, player {si.player}");
         if(si.winner == true)
         {
             //if a winner, end the game
@@ -104,16 +111,48 @@ public class GameManager : MonoBehaviour
 
     private void GameEndHandler(bool player)
     {
+        StartCoroutine(EndGameCo(player));   
+    }
+
+    private IEnumerator EndGameCo(bool player)
+    {
+        //disable scores
+        scoreScreenAnimator.SetBool("active", false);
+
+        yield return new WaitForSeconds(2f);
+        //play in animation
         if (!player)
         {
             //left player
             //show player left wins!
+            winnerText.text = "Player Left Wins!";
+            winnerScreenAnimator.SetBool("active", true);
         }
         else
         {
             //right player
             //show player right wins!
+            winnerText.text = "Player Right Wins!";
+            winnerScreenAnimator.SetBool("active", true);
         }
+    }
+
+    public void MainMenuHandler()
+    {
+
+        StartCoroutine(MainMenuIn());
+
+    }
+
+    private IEnumerator MainMenuIn()
+    {
+        if (winnerScreenAnimator.GetBool("active"))
+        {
+            winnerScreenAnimator.SetBool("active", false);
+            yield return new WaitForSeconds(1.2f);
+        }
+        mainMenuAnimator.SetBool("mainMenu", true);
+
     }
 
     private IEnumerator RoundPadding()
