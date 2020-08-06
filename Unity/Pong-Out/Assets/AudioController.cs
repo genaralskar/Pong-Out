@@ -1,9 +1,16 @@
 ﻿using UnityEngine;
+using UnityEngine.Audio;
 
 public class AudioController : MonoBehaviour
 {
     private GameManager gm;
     private BallController ball;
+
+    [SerializeField]
+    private AudioMixerSnapshot unmuted;
+    [SerializeField]
+    private AudioMixerSnapshot muted;
+
     private AudioSource source;
     private AudioSource voiceSource;
 
@@ -23,7 +30,7 @@ public class AudioController : MonoBehaviour
     private void Awake()
     {
         gm = FindObjectOfType<GameManager>();
-        ball = gm.ball.GetComponent<BallController>();
+        
         source = GetComponents<AudioSource>()[0];
         voiceSource = GetComponents<AudioSource>()[1];
 
@@ -37,6 +44,11 @@ public class AudioController : MonoBehaviour
         gm.BallBounce += BallBounceHandler;
     }
 
+    private void Start()
+    {
+        ball = gm.ball.GetComponent<BallController>();
+    }
+
     public void PlayClip(AudioClip clip)
     {
         source.clip = clip;
@@ -47,6 +59,18 @@ public class AudioController : MonoBehaviour
     {
         voiceSource.clip = clip;
         voiceSource.Play();
+    }
+
+    public void Mute(bool value)
+    {
+        if(value)
+        {
+            muted.TransitionTo(0f);
+        }
+        else
+        {
+            unmuted.TransitionTo(0f);
+        }
     }
 
     private void GameStartHandler()

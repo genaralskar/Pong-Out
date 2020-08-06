@@ -16,14 +16,18 @@ public class InputChecker : MonoBehaviour
     public Animator p2UpAnims;
     public Animator p2DownAnims;
 
+    public AudioClip doneSound;
+
     private Coroutine c;
     private bool checkingInputs;
+    private AudioController ac;
 
     private void Awake()
     {
         gm = FindObjectOfType<GameManager>();
 
         gm.InputCheckStart += InputCheckStartHandler;
+        ac = FindObjectOfType<AudioController>();
     }
 
     private void OnP1Move(InputValue value)
@@ -32,16 +36,18 @@ public class InputChecker : MonoBehaviour
 
         float dir = value.Get<float>();
 
-        if(dir > 0)
+        if(dir > 0 && !p1Up)
         {
             p1Up = true;
             p1UpAnims.SetBool("active", false);
+            PlayAudio();
         }
 
-        if(dir < 0)
+        if(dir < 0 && !p1Down)
         {
             p1Down = true;
             p1DownAnims.SetBool("active", false);
+            PlayAudio();
         }
     }
 
@@ -51,16 +57,18 @@ public class InputChecker : MonoBehaviour
 
         float dir = value.Get<float>();
 
-        if (dir > 0)
+        if (dir > 0 && !p2Up)
         {
             p2Up = true;
             p2UpAnims.SetBool("active", false);
+            PlayAudio();
         }
 
-        if (dir < 0)
+        if (dir < 0 && !p2Down)
         {
             p2Down = true;
             p2DownAnims.SetBool("active", false);
+            PlayAudio();
         }
     }
 
@@ -92,5 +100,10 @@ public class InputChecker : MonoBehaviour
         GameManager.tutorialDone = true;
         gm.InputCheckEnds?.Invoke();
         c = null;
+    }
+
+    private void PlayAudio()
+    {
+        ac.PlayClip(doneSound);
     }
 }
