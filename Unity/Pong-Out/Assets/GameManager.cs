@@ -32,10 +32,12 @@ public class GameManager : MonoBehaviour
 
     private ScoreManager sm;
 
+    [Header("Game Stuff")]
     [SerializeField]
     private int scoreToWin = 10;
     public static int winScore = 10;
     public GameObject ball;
+    public ParticleSystem ballExplosion;
 
     [Header("UI Stuff")]
     public GameObject gameUI;
@@ -99,6 +101,10 @@ public class GameManager : MonoBehaviour
     private void BallExplodedHandler(Vector2 pos)
     {
         //Debug.Log("Ball Exploded!");
+        //move explosion particle and play it
+        ballExplosion.transform.position = pos;
+        ballExplosion.Play();
+
         UpdateScore?.Invoke(pos.x < 0);
         RoundEnd?.Invoke();
     }
