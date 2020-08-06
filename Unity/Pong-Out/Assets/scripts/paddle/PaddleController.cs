@@ -28,7 +28,7 @@ public class PaddleController : MonoBehaviour
 
     public void BreakBlock(Vector2 position)
     {
-        FindNearestBlock(position).SetActive(false);
+        FindNearestBlock(position).DisablePaddle();
     }
 
     private void OnMove(InputValue value)
@@ -51,21 +51,21 @@ public class PaddleController : MonoBehaviour
     {
         rb.MovePosition(new Vector2(transform.position.x, 0));
 
-        foreach (var b in blocks)
+        foreach (var b in pBlocks)
         {
-            b.SetActive(true);
+            b.ResetPaddle();
         }
     }
 
-    private GameObject FindNearestBlock(Vector2 point)
+    private PaddleBlock FindNearestBlock(Vector2 point)
     {
-        GameObject g = GetFirstActiveBlock();
+        PaddleBlock g = GetFirstActiveBlock();
         float closeDist = Vector2.Distance(point, g.transform.position);
-        if (g == null) Debug.LogError("Not active blocks on the paddle, but you're trying to get one!");
+        if (g == null) Debug.LogError("No active blocks on the paddle, but you're trying to get one!");
 
-        foreach(var b in blocks)
+        foreach(var b in pBlocks)
         {
-            if (!b.activeSelf) continue;
+            if (!b.activePaddle) continue;
 
             if(Vector2.Distance(point, b.transform.position) < closeDist)
             {
@@ -77,11 +77,11 @@ public class PaddleController : MonoBehaviour
         return g;
     }
 
-    private GameObject GetFirstActiveBlock()
+    private PaddleBlock GetFirstActiveBlock()
     {
-        foreach(var b in blocks)
+        foreach(var b in pBlocks)
         {
-            if(b.activeSelf)
+            if(b.activePaddle)
             {
                 return b;
             }
